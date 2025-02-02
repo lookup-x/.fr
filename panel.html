@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - SearchData</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://cdn.discordapp.com/attachments/1325431187325325352/1335653523701891122/8A25B95B-E54C-49FC-8539-ECF1A97F3550.png?ex=67a0f3c7&is=679fa247&hm=e9ba383f1f2013ffa8983895c1cf80e4505c0f342396556346df89e482c3b171&') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* Ajout d'une légère transparence pour la lisibilité */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #007bff; /* Couleur bleue du titre */
+        }
+        p {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #333; /* Texte noir pour les paragraphes */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .discord-btn {
+            background-color: #7289da; /* Couleur Discord */
+        }
+        .discord-btn:hover {
+            background-color: #5b6eae; /* Couleur Discord plus foncée */
+        }
+        .info-btn {
+            background-color: #ffc107; /* Couleur jaune pour les informations importantes */
+        }
+        .info-btn:hover {
+            background-color: #e0a800; /* Couleur jaune plus foncée */
+        }
+
+        /* Style pour la fenêtre modale */
+        .modal {
+            display: none; /* Masquer la fenêtre par défaut */
+            position: fixed;
+            z-index: 1; /* Placer la fenêtre modale au-dessus du contenu */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+            overflow: auto; /* Permet de faire défiler si nécessaire */
+            padding-top: 60px;
+        }
+
+        /* Contenu de la modale */
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            text-align: center;
+        }
+
+        .modal button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .modal button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Panel - SearchData</h1>
+        <p>Bienvenue dans votre espace utilisateur.</p>
+        <p>Vous êtes bien connecté ! </p>
+        <button onclick="window.location.href='index.html'">Se déconnecter</button>
+        <!-- Nouveau bouton Discord Support -->
+        <button class="discord-btn" onclick="window.location.href='https://discord.gg/ADgyTej3XK'">Discord Support</button>
+        <!-- Nouveau bouton Informations importantes -->
+        <button class="info-btn" onclick="openModal()">Informations importantes</button>
+    </div>
+
+    <!-- Fenêtre modale -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <p>Site en cours de développement. <br>Développé par @mytraa.dev</p>
+            <button onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Ouvrir la fenêtre modale
+        function openModal() {
+            document.getElementById("infoModal").style.display = "block";
+        }
+
+        // Fermer la fenêtre modale
+        function closeModal() {
+            document.getElementById("infoModal").style.display = "none";
+        }
+
+        // Fermer la fenêtre modale si l'utilisateur clique en dehors de la fenêtre
+        window.onclick = function(event) {
+            var modal = document.getElementById("infoModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
