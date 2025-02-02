@@ -48,6 +48,56 @@
         button:hover {
             background-color: #0056b3;
         }
+        .discord-btn {
+            background-color: #7289da; /* Couleur Discord */
+        }
+        .discord-btn:hover {
+            background-color: #5b6eae; /* Couleur Discord plus foncée */
+        }
+        .info-btn {
+            background-color: #ffc107; /* Couleur jaune pour les informations importantes */
+        }
+        .info-btn:hover {
+            background-color: #e0a800; /* Couleur jaune plus foncée */
+        }
+
+        /* Style pour la fenêtre modale */
+        .modal {
+            display: none; /* Masquer la fenêtre par défaut */
+            position: fixed;
+            z-index: 1; /* Placer la fenêtre modale au-dessus du contenu */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+            overflow: auto; /* Permet de faire défiler si nécessaire */
+            padding-top: 60px;
+        }
+
+        /* Contenu de la modale */
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            text-align: center;
+        }
+
+        .modal button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .modal button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +106,38 @@
         <p>Bienvenue dans votre espace utilisateur.</p>
         <p>Vous êtes bien connecté ! </p>
         <button onclick="window.location.href='index.html'">Se déconnecter</button>
+        <!-- Nouveau bouton Discord Support -->
+        <button class="discord-btn" onclick="window.location.href='https://discord.gg/ADgyTej3XK'">Discord Support</button>
+        <!-- Nouveau bouton Informations importantes -->
+        <button class="info-btn" onclick="openModal()">Informations importantes</button>
     </div>
+
+    <!-- Fenêtre modale -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <p>Site en cours de développement. <br>Développé par @mytraa.dev</p>
+            <button onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Ouvrir la fenêtre modale
+        function openModal() {
+            document.getElementById("infoModal").style.display = "block";
+        }
+
+        // Fermer la fenêtre modale
+        function closeModal() {
+            document.getElementById("infoModal").style.display = "none";
+        }
+
+        // Fermer la fenêtre modale si l'utilisateur clique en dehors de la fenêtre
+        window.onclick = function(event) {
+            var modal = document.getElementById("infoModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
