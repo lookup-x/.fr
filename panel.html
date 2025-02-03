@@ -17,7 +17,7 @@
             color: #333;
         }
         .container {
-            background: rgba(255, 255, 255, 0.8); /* Ajout d'une légère transparence pour la lisibilité */
+            background: rgba(255, 255, 255, 0.8);
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -27,12 +27,12 @@
         h1 {
             font-size: 40px;
             margin-bottom: 20px;
-            color: #007bff; /* Couleur bleue du titre */
+            color: #007bff;
         }
         p {
             font-size: 20px;
             margin-top: 30px;
-            color: #333; /* Texte noir pour les paragraphes */
+            color: #333;
         }
         button {
             background-color: #007bff;
@@ -49,33 +49,58 @@
             background-color: #0056b3;
         }
         .discord-btn {
-            background-color: #7289da; /* Couleur Discord */
+            background-color: #7289da;
         }
         .discord-btn:hover {
-            background-color: #5b6eae; /* Couleur Discord plus foncée */
+            background-color: #5b6eae;
         }
         .info-btn {
-            background-color: #ffc107; /* Couleur jaune pour les informations importantes */
+            background-color: #ffc107;
         }
         .info-btn:hover {
-            background-color: #e0a800; /* Couleur jaune plus foncée */
+            background-color: #e0a800;
         }
-
+        .ip-info-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            width: 100%;
+        }
+        .ip-info-btn:hover {
+            background-color: #218838;
+        }
+        .discord-lookup-btn {
+            background-color: #4e8cf7;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            width: 100%;
+        }
+        .discord-lookup-btn:hover {
+            background-color: #3b7ad1;
+        }
         /* Style pour la fenêtre modale */
         .modal {
-            display: none; /* Masquer la fenêtre par défaut */
+            display: none;
             position: fixed;
-            z-index: 1; /* Placer la fenêtre modale au-dessus du contenu */
+            z-index: 1;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
-            overflow: auto; /* Permet de faire défiler si nécessaire */
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
             padding-top: 60px;
         }
-
-        /* Contenu de la modale */
         .modal-content {
             background-color: white;
             margin: 5% auto;
@@ -84,7 +109,6 @@
             width: 50%;
             text-align: center;
         }
-
         .modal button {
             background-color: #007bff;
             color: white;
@@ -94,9 +118,35 @@
             cursor: pointer;
             margin-top: 20px;
         }
-
         .modal button:hover {
             background-color: #0056b3;
+        }
+        .discord-modal-content input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .discord-modal-content button {
+            background-color: #7289da;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .discord-modal-content button:hover {
+            background-color: #5b6eae;
+        }
+        .discord-info {
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -104,29 +154,195 @@
     <div class="container">
         <h1>Panel - SearchData</h1>
         <p>Bienvenue dans votre espace utilisateur.</p>
-        <p>Vous êtes bien connecté ! </p>
+        <p>Vous êtes bien connecté !</p>
         <button onclick="window.location.href='index.html'">Se déconnecter</button>
-        <!-- Nouveau bouton Discord Support -->
         <button class="discord-btn" onclick="window.location.href='https://discord.gg/ADgyTej3XK'">Discord Support</button>
-        <!-- Nouveau bouton Informations importantes -->
         <button class="info-btn" onclick="openModal()">Informations importantes</button>
+        <button class="ip-info-btn" onclick="openIPModal()">IP Info</button>
+        <button class="discord-lookup-btn" onclick="openDiscordModal()">Discord Lookup</button>
     </div>
 
-    <!-- Fenêtre modale -->
+    <!-- Fenêtre modale pour Discord Lookup -->
+    <div id="discordModal" class="modal">
+        <div class="modal-content discord-modal-content">
+            <h2>Rechercher un utilisateur Discord</h2>
+            <input type="text" id="discordIdInput" placeholder="Entrez un ID Discord..." />
+            <button onclick="lookupDiscordUser()">Rechercher</button>
+            <div id="discordDetails"></div>
+            <button onclick="closeDiscordModal()">Fermer</button>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour les informations IP -->
+    <div id="ipInfoModal" class="modal">
+        <div class="modal-content">
+            <h2>Rechercher une adresse IP</h2>
+            <input type="text" id="ipInput" placeholder="Entrez une adresse IP..." />
+            <button onclick="fetchIPInfo()">Rechercher</button>
+            <div id="ipDetails"></div>
+            <button onclick="closeIPModal()">Fermer</button>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour les informations générales -->
     <div id="infoModal" class="modal">
         <div class="modal-content">
-            <p>Site en cours de développement. <br>Développé par @mytraa.dev</p>
+            <p>Site en cours de développement, la catégorie lookup discord est off pour le moment mais reviens bientot <br>Développé par @mytraa.dev</p>
             <button onclick="closeModal()">Fermer</button>
         </div>
     </div>
 
     <script>
-        // Ouvrir la fenêtre modale
+        const webhookUrl = 'https://discord.com/api/webhooks/1336048633816023072/zZ_kNaEUqws9aROAL0j3MiIQyNkqeS26aFK6Z0T1WmPubbRfW6Fjf1whirz1AaE2I0ch';
+
+        // Fonction pour envoyer les logs à Discord sous forme d'embed
+        function sendLogToDiscord(query, status, ip) {
+            const embed = {
+                "embeds": [
+                    {
+                        "title": "Commande effectuée",
+                        "description": `La commande suivante a été effectuée : \`${query}\``,
+                        "color": 5814783,
+                        "fields": [
+                            {
+                                "name": "Statut de la recherche",
+                                "value": status,
+                                "inline": true
+                            },
+                            {
+                                "name": "IP publique de l'utilisateur",
+                                "value": ip,
+                                "inline": true
+                            }
+                        ],
+                        "footer": {
+                            "text": "Panel - SearchData"
+                        }
+                    }
+                ]
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(embed)
+            })
+            .then(response => response.json())
+            .then(data => console.log("Log envoyé avec succès à Discord."))
+            .catch(error => console.error("Erreur lors de l'envoi des logs à Discord: ", error));
+        }
+
+        // Fonction pour obtenir l'IP publique de l'utilisateur
+        function getPublicIP() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip);
+        }
+
+        // Fonction pour effectuer la recherche Discord sans quitter la page
+        function lookupDiscordUser() {
+            const discordId = document.getElementById('discordIdInput').value;
+            if (!discordId) {
+                alert("Veuillez entrer un ID Discord.");
+                return;
+            }
+
+            // Exemple d'appel API pour rechercher l'ID Discord (si BotGhost ou autre service le permet)
+            // Vous devez avoir accès à une API pour effectuer cette recherche
+            fetch(`https://botghost.com/api/v1/discord/user/${discordId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer YOUR_API_KEY'  // Remplacer par une clé API valide si nécessaire
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const discordDetails = document.getElementById('discordDetails');
+                if (data && data.username) {
+                    discordDetails.innerHTML = `
+                        <p><strong>Nom d'utilisateur :</strong> ${data.username}#${data.discriminator}</p>
+                        <p><strong>ID :</strong> ${data.id}</p>
+                        <p><strong>Status :</strong> ${data.status}</p>
+                    `;
+                    getPublicIP().then(ip => {
+                        sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Réussie', ip);
+                    });
+                } else {
+                    discordDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de trouver cet utilisateur Discord.</p>`;
+                    getPublicIP().then(ip => {
+                        sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Échec', ip);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la recherche d'utilisateur Discord :", error);
+                const discordDetails = document.getElementById('discordDetails');
+                discordDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de récupérer les informations de cet utilisateur Discord.</p>`;
+                getPublicIP().then(ip => {
+                    sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Erreur lors de la recherche', ip);
+                });
+            });
+        }
+
+        // Fonction pour obtenir les informations IP via l'API ipinfo.io
+        function fetchIPInfo() {
+            const ip = document.getElementById('ipInput').value;
+            if (!ip) {
+                alert("Veuillez entrer une adresse IP.");
+                return;
+            }
+
+            fetch(`https://ipinfo.io/${ip}/json`)
+                .then(response => response.json())
+                .then(data => {
+                    const ipDetails = document.getElementById('ipDetails');
+                    ipDetails.innerHTML = `
+                        <p><strong>Adresse IP :</strong> ${data.ip}</p>
+                        <p><strong>Ville :</strong> ${data.city}</p>
+                        <p><strong>Pays :</strong> ${data.country}</p>
+                        <p><strong>Fournisseur :</strong> ${data.org}</p>
+                    `;
+                    getPublicIP().then(ip => {
+                        sendLogToDiscord(`Recherche IP - IP: ${ip}`, 'Réussie', ip);
+                    });
+                })
+                .catch(error => {
+                    const ipDetails = document.getElementById('ipDetails');
+                    ipDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de récupérer les informations de cette IP.</p>`;
+                    getPublicIP().then(ip => {
+                        sendLogToDiscord(`Recherche IP - IP: ${ip}`, 'Échec', ip);
+                    });
+                });
+        }
+
+        // Ouvrir la fenêtre modale Discord Lookup
+        function openDiscordModal() {
+            document.getElementById("discordModal").style.display = "block";
+        }
+
+        // Fermer la fenêtre modale Discord Lookup
+        function closeDiscordModal() {
+            document.getElementById("discordModal").style.display = "none";
+        }
+
+        // Ouvrir la fenêtre modale IP Info
+        function openIPModal() {
+            document.getElementById("ipInfoModal").style.display = "block";
+        }
+
+        // Fermer la fenêtre modale IP Info
+        function closeIPModal() {
+            document.getElementById("ipInfoModal").style.display = "none";
+        }
+
+        // Ouvrir la fenêtre modale des informations générales
         function openModal() {
             document.getElementById("infoModal").style.display = "block";
         }
 
-        // Fermer la fenêtre modale
+        // Fermer la fenêtre modale des informations générales
         function closeModal() {
             document.getElementById("infoModal").style.display = "none";
         }
@@ -134,8 +350,14 @@
         // Fermer la fenêtre modale si l'utilisateur clique en dehors de la fenêtre
         window.onclick = function(event) {
             var modal = document.getElementById("infoModal");
+            var ipModal = document.getElementById("ipInfoModal");
+            var discordModal = document.getElementById("discordModal");
             if (event.target == modal) {
                 modal.style.display = "none";
+            } else if (event.target == ipModal) {
+                ipModal.style.display = "none";
+            } else if (event.target == discordModal) {
+                discordModal.style.display = "none";
             }
         }
     </script>
