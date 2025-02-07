@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>   
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: url('https://cdn.discordapp.com/attachments/1325431187325325352/1335653523701891122/8A25B95B-E54C-49FC-8539-ECF1A97F3550.png?ex=67a0f3c7&is=679fa247&hm=e9ba383f1f2013ffa8983895c1cf80e4505c0f342396556346df89e482c3b171&') no-repeat center center fixed;
+            background: url('https://cdn.discordapp.com/attachments/1325431187325325352/1335653523701891122/8A25B95B-E54C-49FC-8539-ECF1A97F3550.png?ex=67a78b47&is=67a639c7&hm=5978badfe1805805f178a06eac3a3c092ec503a73736ca1060fbba9f182c9f5e&') no-repeat center center fixed;
             background-size: cover;
             text-align: center;
             padding-bottom: 50px; /* Pour laisser de l'espace pour le bandeau des cookies */
@@ -98,21 +98,37 @@
         #cookie-banner button:hover {
             background-color: #0056b3;
         }
+
+        /* Message de prévention pour l'accès au code */
+        #prevention-message {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff0000;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            z-index: 9999;
+        }
     </style>
     <script>
         let userIP = ""; // Variable globale pour l'IP de l'utilisateur
 
-        function switchSection(section) {
-            const signupSection = document.getElementById("signup-section");
-            const loginSection = document.getElementById("login-section");
-            if (section === 'signup') {
-                signupSection.classList.add('active-section');
-                loginSection.classList.remove('active-section');
-            } else {
-                loginSection.classList.add('active-section');
-                signupSection.classList.remove('active-section');
+        // Désactiver le clic droit
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('L\'accès au code source est interdit sur ce site.');
+        });
+
+        // Désactiver les raccourcis F12 et Ctrl+Shift+I
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                e.preventDefault();
+                alert("L'accès aux outils de développement est désactivé.");
             }
-        }
+        });
 
         // Fonction pour récupérer l'IP et l'enregistrer lorsque l'utilisateur accepte les cookies
         async function closeCookieBanner() {
@@ -201,6 +217,7 @@
     </script>
 </head>
 <body>
+
     <div class="container">
         <h1>🔎 LookupX</h1>
 
