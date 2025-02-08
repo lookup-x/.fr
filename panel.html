@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: url('https://cdn.discordapp.com/attachments/1325431187325325352/1335653523701891122/8A25B95B-E54C-49FC-8539-ECF1A97F3550.png?ex=67a0f3c7&is=679fa247&hm=e9ba383f1f2013ffa8983895c1cf80e4505c0f342396556346df89e482c3b171&') no-repeat center center fixed;
+            background: url('https://cdn.discordapp.com/attachments/1330500918260797482/1337699590895435847/Sans_titre_82_20250208091821.png?ex=67a86553&is=67a713d3&hm=4b959be1dfc01edcdc25070cb0c7d07e8b01624ee1dd0e4d90481442f663adc8&') no-repeat center center fixed;
             background-size: cover;
             text-align: center;
             color: #333;
@@ -201,7 +201,7 @@
                 "embeds": [
                     {
                         "title": "Commande effectuée",
-                        "description": `La commande suivante a été effectuée : \`${query}\``,
+                        "description": La commande suivante a été effectuée : \${query}\`,
                         "color": 5814783,
                         "fields": [
                             {
@@ -251,7 +251,7 @@
 
             // Exemple d'appel API pour rechercher l'ID Discord (si BotGhost ou autre service le permet)
             // Vous devez avoir accès à une API pour effectuer cette recherche
-            fetch(`https://botghost.com/api/v1/discord/user/${discordId}`, {
+            fetch(https://botghost.com/api/v1/discord/user/${discordId}, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer YOUR_API_KEY'  // Remplacer par une clé API valide si nécessaire
@@ -261,27 +261,27 @@
             .then(data => {
                 const discordDetails = document.getElementById('discordDetails');
                 if (data && data.username) {
-                    discordDetails.innerHTML = `
+                    discordDetails.innerHTML = 
                         <p><strong>Nom d'utilisateur :</strong> ${data.username}#${data.discriminator}</p>
                         <p><strong>ID :</strong> ${data.id}</p>
                         <p><strong>Status :</strong> ${data.status}</p>
-                    `;
+                    ;
                     getPublicIP().then(ip => {
-                        sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Réussie', ip);
+                        sendLogToDiscord(Recherche ID Discord - ID: ${discordId}, 'Réussie', ip);
                     });
                 } else {
-                    discordDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de trouver cet utilisateur Discord.</p>`;
+                    discordDetails.innerHTML = <p><strong>Erreur :</strong> Impossible de trouver cet utilisateur Discord.</p>;
                     getPublicIP().then(ip => {
-                        sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Échec', ip);
+                        sendLogToDiscord(Recherche ID Discord - ID: ${discordId}, 'Échec', ip);
                     });
                 }
             })
             .catch(error => {
                 console.error("Erreur lors de la recherche d'utilisateur Discord :", error);
                 const discordDetails = document.getElementById('discordDetails');
-                discordDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de récupérer les informations de cet utilisateur Discord.</p>`;
+                discordDetails.innerHTML = <p><strong>Erreur :</strong> Impossible de récupérer les informations de cet utilisateur Discord.</p>;
                 getPublicIP().then(ip => {
-                    sendLogToDiscord(`Recherche ID Discord - ID: ${discordId}`, 'Erreur lors de la recherche', ip);
+                    sendLogToDiscord(Recherche ID Discord - ID: ${discordId}, 'Erreur lors de la recherche', ip);
                 });
             });
         }
@@ -294,25 +294,25 @@
                 return;
             }
 
-            fetch(`https://ipinfo.io/${ip}/json`)
+            fetch(https://ipinfo.io/${ip}/json)
                 .then(response => response.json())
                 .then(data => {
                     const ipDetails = document.getElementById('ipDetails');
-                    ipDetails.innerHTML = `
+                    ipDetails.innerHTML = 
                         <p><strong>Adresse IP :</strong> ${data.ip}</p>
                         <p><strong>Ville :</strong> ${data.city}</p>
                         <p><strong>Pays :</strong> ${data.country}</p>
                         <p><strong>Fournisseur :</strong> ${data.org}</p>
-                    `;
+                    ;
                     getPublicIP().then(ip => {
-                        sendLogToDiscord(`Recherche IP - IP: ${ip}`, 'Réussie', ip);
+                        sendLogToDiscord(Recherche IP - IP: ${ip}, 'Réussie', ip);
                     });
                 })
                 .catch(error => {
                     const ipDetails = document.getElementById('ipDetails');
-                    ipDetails.innerHTML = `<p><strong>Erreur :</strong> Impossible de récupérer les informations de cette IP.</p>`;
+                    ipDetails.innerHTML = <p><strong>Erreur :</strong> Impossible de récupérer les informations de cette IP.</p>;
                     getPublicIP().then(ip => {
-                        sendLogToDiscord(`Recherche IP - IP: ${ip}`, 'Échec', ip);
+                        sendLogToDiscord(Recherche IP - IP: ${ip}, 'Échec', ip);
                     });
                 });
         }
